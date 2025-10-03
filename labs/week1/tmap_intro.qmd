@@ -492,13 +492,27 @@ tm_shape(world_vector) +
 Similar to the `theme()` function in `ggplot2`, the `tm_layout()` function in `tmap` controls many of the map elements of the map layout.
 
 ```{r}
+# tm_shape(world_vector) +
+#   tm_polygons(fill = "wb_income_region",
+#               fill.legend = tm_legend(title = "Regional Income")) +
+#   tm_title(text = "Global Income",
+#            frame = TRUE) +
+#   tm_layout(text.fonrfamily = "Montserrat", style = "beaver",
+#             bg.color = "grey95")
+
 tm_shape(world_vector) +
   tm_polygons(fill = "wb_income_region",
-              fill.legend = tm_legend(title = "Regional Income")) +
-  tm_title(text = "Global Income",
-           frame = TRUE) +
-  tm_layout(text.fonrfamily = "Montserrat", style = "beaver",
-            bg.color = "grey95")
+          #fill.scale = tm_scale(values = viridisLite::plasma(5)),
+          fill.legend  = tm_legend(title = "Regional Income")) +
+  tm_title(text = "Global income",
+            frame = TRUE)+ 
+  tm_layout(text.fontfamily = "Montserrat",
+            style= "beaver",
+            bg.color = "grey95",
+            #color.saturation = ,
+            panel.label.bg.color = 'tan')
+
+#fill.scale(arguments: labels, breaks)
 ```
 
 
@@ -508,13 +522,26 @@ tm_shape(world_vector) +
 One of the most powerful aspects of `tmap` is the ease of creating interactive maps. `tmap` has two modes `"plot"` which creates static maps and `"view"` which creates interactive maps that can be easily embedded in quarto docs. It's as easy as using the `tmap_mode()`!
 
 ```{r}
-
+tmap_mode("view")
 ```
+```{r}
+tm_shape(world_vector) +
+  tm_polygons(fill = "wb_income_region",
+          #fill.scale = tm_scale(values = viridisLite::plasma(5)),
+          fill.legend  = tm_legend(title = "Regional Income")) +
+  tm_title(text = "Global income",
+            frame = TRUE)+ 
+  tm_layout(text.fontfamily = "Montserrat",
+            style= "beaver",
+            bg.color = "grey95")
+```
+
+
 
 To return to regular plotting mode, simply reset `tmap_mode`.
 
 ```{r}
-
+tmap_mode("plot")
 ```
 
 ## 8. Saving maps
@@ -522,6 +549,10 @@ To return to regular plotting mode, simply reset `tmap_mode`.
 Maps can be stored as objects for for adding additional layers and saving programmatically. Maps can be saved directly in `tmap` using the `tm_save()` function. 
 
 ```{r}
+map1 <- tm_shape(world_vector) +
+  tm_polygons(fill = "life_expectancy", 
+              #fill.scale = tm_scale(values =  viridis(8)),
+              fill.legend = tm_legend(title  = "Life Expectancy (years)"))
 
-
+tmap_save(map1, here("labs","week1","outputs","tmap-example.png"))
 ```
