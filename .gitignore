@@ -51,3 +51,4 @@ rsconnect/
 # Ignore all heavy data files in week1
 labs/week1/data/*
 labs/week5/data/*
+labs/week8/data/*
